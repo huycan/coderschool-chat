@@ -2,11 +2,14 @@
   <div class="nav-wrapper">
     <%= link_to 'Happy Chatty', root_path, class: 'brand-logo' %>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><%= link_to 'Sign up', '#' %></li>
-      <li><%= link_to 'Sign in', '#' %></li>
-      <li><%= link_to 'Log out', '#' %></li>
-      <li><%= link_to 'Friends', '#' %></li>
-      <li><%= link_to 'Sent Messages', '#' %></li>
+      <% if true %>
+        <li><%= link_to 'Sign up', new_user_path %></li>
+        <li><%= link_to 'Sign in', new_session_path %></li>
+      <% else %>
+        <li><%= link_to 'Log out', session_path, method: :delete %></li>
+        <li><%= link_to 'Friends', '#' %></li>
+        <li><%= link_to 'Sent Messages', '#' %></li>
+      <% end %>
     </ul>
   </div>
 </nav>

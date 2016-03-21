@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  resources :sessions, only: [:new, :create, :destroy]
+
+  resources :users, only: [:new, :create] do
+    resources :messages, only: [:index, :new, :create] do
+      member do
+        post 'read', to: 'messages#read'
+      end
+    end
+  end
+
+  root 'messages#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
