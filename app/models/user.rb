@@ -19,8 +19,14 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   
+  scope :all_except, ->(user) { where.not(id: user) }
+
   def friends
     [self.inviter_friends.all, self.accepter_friends.all].flatten
+  end
+
+  def users_to_add
+    User.all_except(self.friends.push(self).collect { |user| user.id })
   end
 
   def messages
