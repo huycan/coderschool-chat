@@ -3,23 +3,24 @@ class Message < ActiveRecord::Base
   belongs_to :receiver, class_name: 'User'
 
   validates :content, presence: true
-  validates :sender, presence: true
-  validates :receiver, presence: true
+  validates :sender_id, presence: true
+  validates :receiver_id, presence: true
 
-  before_create :set_unread
+  before_create :set_unread!
 
   def read?
     !!self[:read_at]
   end
 
-  def read at_utc_time
+  def read_at_utc time
     if self[:read_at].nil?
-      self[:read_at] = at_utc_time.utc
+      self[:read_at] = time.utc
+      # self.save
     end
   end
 
   private
-  def set_unread
+  def set_unread!
     self[:read_at] = nil
   end
 end

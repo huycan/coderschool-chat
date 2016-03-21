@@ -11,33 +11,25 @@ Message.delete_all
 Friendship.delete_all
 User.delete_all
 
-
 # 1 real user and 4 fake users
-id = 1
-User.create id: id, name: 'Huy', email: 'td.huycan@gmail.com', password: '1', password_confirmation: '1'
+User.create name: 'huy', email: 'td.huycan@gmail.com', password: '1', password_confirmation: '1'
 4.times do
-  id += 1
-  User.create id: id, name: Faker::StarWars.character, email: Faker::Internet.email, password: '1', password_confirmation: '1'
+  User.create name: Faker::StarWars.character, email: Faker::Internet.email, password: '1', password_confirmation: '1'
 end
 
-# 1st user is friends of all other 4 users
-user_id = 1
-id = 0
-3.times do
-  user_id += 1
-  id += 1
-  Friendship.create id: id, inviter_id: 1, accepter_id: user_id
+# add friends
+users = User.where.not(email: 'td.huycan@gmail.com')
+huy = User.find_by_email('td.huycan@gmail.com')
+users.take(3).each do |user|
+  huy.add_friend! user
 end
-Friendship.create id: 4, inviter_id: 5, accepter_id: 1
+users[3].add_friend! huy
 
-# 1st user sends and receives messages from 3 other users
-id = 0
-user_id = 1
-3.times do
-  user_id += 1
-  id += 1
-  Message.create id: id, sender_id: user_id, receiver_id: 1, content: Faker::Hipster.sentence
-  id += 1
-  Message.create id: id, sender_id: 1, receiver_id: user_id, content: Faker::Hipster.paragraph
+# send messages
+users.each do |user|
+  user.send_messages!([ Message.new(receiver_id: huy.id, content: Faker::Hipster.sentence) ])
+  huy.send_messages!([ Message.new(receiver_id: user.id, content: Faker::Lorem.sentence) ])
 end
-Message.find(1).update read_at: Faker::Time.forward(2)
+msg = huy.received_messages.first
+msg.read_at_utc Time.now.utc
+msg.save
