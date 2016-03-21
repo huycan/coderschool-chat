@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   has_many :accepter_friendship, foreign_key: :inviter_id, class_name: 'Friendship'
   has_many :accepter_friends, through: :accepter_friendship, source: :accepter
 
+  has_many :blocks, foreign_key: 'user_id'
+  has_many :blocked_friends, through: :blocks, source: 'blocked_user'
+
   validates :name, length: { minimum: 1 }
   validates :email, uniqueness: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
@@ -29,9 +32,18 @@ class User < ActiveRecord::Base
   end
 
   def delete_friend! friend
+    self.inviter_friends.delete friend
+    self.accepter_friends.delete friend
+    # Friendship.destroy_all inviter_id: friend.id, accepter_id: self[:id]
+    # Friendship.destroy_all inviter_id: self[:id], accepter_id: friend.id
   end
 
   def block_friend! friend
+    self.blocked_friends << friend
+  end
+
+  def unblock_friend! friend
+    self.blocked_friends.destroy friend
   end
 
   def send_messages! messages

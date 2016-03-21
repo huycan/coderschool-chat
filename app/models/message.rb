@@ -15,7 +15,6 @@ class Message < ActiveRecord::Base
   def read_at_utc time
     if self[:read_at].nil?
       self[:read_at] = time.utc
-      # self.save
     end
   end
 

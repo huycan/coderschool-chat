@@ -9,6 +9,7 @@
 # delete in order, to satisfy foreign key
 Message.delete_all
 Friendship.delete_all
+Block.delete_all
 User.delete_all
 
 # 1 real user and 4 fake users
@@ -33,3 +34,6 @@ end
 msg = huy.received_messages.first
 msg.read_at_utc Time.now.utc
 msg.save
+
+# block
+huy.block_friend! users.last
