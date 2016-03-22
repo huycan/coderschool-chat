@@ -6,12 +6,10 @@ class MessagesController < ApplicationController
   end
 
   def new
+    MessageMailer.notify_new_message(@message, read_user_message_path(@current_user.id, @message.id)).deliver_now
   end
 
   def create
-  end
-
-  def show
   end
   
   def sent    
@@ -19,8 +17,16 @@ class MessagesController < ApplicationController
 
   def read
     render 'show'
-    @message.read_at_utc Time.now.utc
-    @message.save
+
+    if !!@message && @message.receiver_id == @current_user.id
+      @message.read_at_utc Time.now.utc
+      @message.save
+
+      MessageMailer.notify_read_message(@message).deliver_now
+    else
+      flash[:error] = 'You are not the receiver of this message!'
+      redirect_to root_path
+    end
   end
 
   private

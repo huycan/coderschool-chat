@@ -32,8 +32,8 @@ The following **optional** functionality is complete:
 * [x] User can remove friends from their friends list.
 * [x] User can unblock friends from their block list.
 * [ ] Implement Infinite Scroll. Hint: you can use the [kaminari gem](https://github.com/amatsuda/kaminari) and [jquery-infinite-pages gem](https://github.com/magoosh/jquery-infinite-pages).
-* [ ] User gets an email when they receive a message, with a link to view the message.
-* [ ] User gets an email when a message they have sent is read with the time at which the message was read.
+* [x] User gets an email when they receive a message, with a link to view the message.
+* [x] User gets an email when a message they have sent is read with the time at which the message was read.
 * [ ] User can send a message to the email address of a non-registered user. The recipient will receive an email with a link to sign up for the service, and after creating an account, will be able to view the sent message. 
 
 The following **additional** features are implemented:
