@@ -1,1 +1,20 @@
-<h1>Messages</h1>
+<% @messages.each do |msg| %>
+	<div class="row">
+    <div class="col s12 m6">
+      <div class="card cyan darken-1">
+        <div class="card-content white-text">
+        	<span class="card-title">
+        		From <%= msg.sender.name %>
+        		<% if !msg.read? %>
+        			<i class="material-icons right">markunread</i>
+          	<% end %>
+      		</span>
+          <p><%= msg.created_at.strftime("%B %-d, %Y %k:%M") %></p>
+        </div>
+        <div class="card-action">
+          <%= link_to 'Read', read_user_message_path(@current_user.id, msg.id), method: :post %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

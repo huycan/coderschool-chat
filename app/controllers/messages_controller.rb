@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   def index
+    @messages = User.find(params[:user_id]).messages
   end
 
   def new
@@ -11,6 +12,9 @@ class MessagesController < ApplicationController
   def show
   end
   
+  def sent
+  end
+
   def read
   end
 end

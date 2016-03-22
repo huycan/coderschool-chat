@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :require_login, only: [:new, :create]
-  skip_before_action :redirect_if_signed_in, only: [:destroy]
+  before_action :redirect_if_signed_in, only: [:new, :create]
 
   def new
   end
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     if !!@user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
       flash[:success] = 'You have signed in successfully'      
-      redirect_to messages_path(@user)
+      redirect_to user_messages_path(@user)
     else
       flash.now[:error] = 'Invalid username or password'
       render new_session_path

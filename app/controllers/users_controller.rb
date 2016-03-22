@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login, :redirect_if_signed_in
+  skip_before_action :require_login
+  before_action :redirect_if_signed_in
 
   def index
     @friend_list = @current_user.users_to_add_friend
