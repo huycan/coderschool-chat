@@ -2,6 +2,15 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
 
   resources :users, only: [:new, :create] do
+    member do
+      get 'friends', to: 'users#index'
+      post 'friends/:friend_id', to: 'users#add_friend', as: 'add_friend'
+      delete 'friends/:friend_id', to: 'users#delete_friend', as: 'delete_friend'
+
+      post 'friends/:friend_id/block', to: 'users#block_friend', as: 'block_friend'
+      delete 'friends/:friend_id/block', to: 'users#unblock_friend', as: 'unblock_friend'
+    end
+
     resources :messages, only: [:index, :new, :create] do
       collection do
         get 'sent', to: 'messages#sent'

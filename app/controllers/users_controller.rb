@@ -1,9 +1,28 @@
 class UsersController < ApplicationController
-  skip_before_action :require_login
-  before_action :redirect_if_signed_in
+  skip_before_action :require_login, only: [:new, :create]
+  before_action :redirect_if_signed_in, only: [:new, :create]
 
   def index
-    @friend_list = @current_user.users_to_add_friend
+    @users = @current_user.users_to_add_friend
+  end
+
+  def add_friend
+    friend = User.find params[:friend_id]
+    @current_user.add_friend! friend
+
+    redirect_to friends_user_path(@current_user.id)
+  end
+
+  def delete_friend
+    @current_user.delete_friend User.find params[:friend_id]
+  end
+
+  def block_friend
+    @current_user.block_friend User.find params[:friend_id]
+  end
+
+  def unblock_friend
+    @current_user.unblock_friend User.find params[:friend_id]
   end
 
   def new

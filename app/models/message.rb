@@ -8,6 +8,8 @@ class Message < ActiveRecord::Base
 
   before_create :set_unread!
 
+  scope :blocked_by_sender, ->(user) { where.not(sender_id: user) }
+
   def read?
     !!self[:read_at]
   end

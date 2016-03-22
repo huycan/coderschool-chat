@@ -1,0 +1,21 @@
+<div class="col s12 m4">
+	<div class="card cyan darken-1">
+    <div class="card-content white-text">
+    	<span class="card-title"><%= user.name %></span>
+    	<p>
+    		Email <%= user.email %>
+    	</p>
+    </div>
+    <div class="card-action">
+    	<% if !user.is_friend_of(@current_user.id) %>
+    		<%= link_to 'Add friend', add_friend_path(@current_user.id, user.id), method: :post %>
+    	<% elsif !user.is_blocked_by(@current_user.id) %>
+    		<%= link_to 'Delete friend', delete_friend_path(@current_user.id, user.id), method: :delete %>
+				<%= link_to 'Block', read_user_message_path(@current_user.id, user.id), method: :post %>
+    	<% else %>
+    		<%= link_to 'Delete friend', delete_friend_path(@current_user.id, user.id), method: :delete %>
+				<%= link_to 'Unblock', block_friend_path(@current_user.id, user.id), method: :post %>
+    	<% end %>
+    </div>
+  </div>
+</div>

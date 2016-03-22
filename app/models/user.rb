@@ -26,11 +26,19 @@ class User < ActiveRecord::Base
   end
 
   def users_to_add_friend
-    User.all_except(self.friends.push(self).collect { |user| user.id })
+    User.all_except(user.id)
+  end
+
+  def is_friend_of? user_id
+    return !!Friendship.find_by(inviter_id: user_id) or !!Friendship.find_by(accepter_id: user_id)
+  end
+
+  def is_blocked_by? user_id
+    return !!Block.find_by(user_id: user_id)
   end
 
   def messages
-    self.received_messages.order created_at: :desc
+    self.received_messages.blocked_by_sender(self.blocked_friends.collect { |f| f.id }).order created_at: :desc
   end
 
   def add_friend! friend
