@@ -1,11 +1,14 @@
 class SessionsController < ApplicationController
+  skip_before_action :require_login, only: [:new, :create]
+  skip_before_action :redirect_if_signed_in, only: [:destroy]
+
   def new
   end
 
   def create
     @user = User.find_by_email(params[:user][:email])
     
-    if @user.authenticate(params[:user][:password])
+    if !!@user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
       flash[:success] = 'You have signed in successfully'      
       redirect_to messages_path(@user)

@@ -1,13 +1,14 @@
 module ApplicationHelper
-  def bootstrap_class_for flash_type
-    { success: 'alert-success', error: 'alert-danger', warning: 'alert-warning'}[flash_type.to_sym]
+  def color_class_for flash_type
+    { success: 'blue-text text-darken-2', error: 'red', warning: 'alert-warning'}[flash_type.to_sym]
   end
 
   def flash_messages(opts = {})
     flash.each do |msg_type, message|
-      concat(content_tag(:div, message, class: "text-center alert #{bootstrap_class_for(msg_type)} fade in") do
-        concat content_tag(:button, 'x'.html_safe, class: 'close', data: {dismiss: 'alert'})
-        concat message
+      concat(content_tag(:div, message, class: "card white-text #{color_class_for(msg_type)}") do
+        concat(content_tag(:div, message, class: "card-content white-text") do
+          concat message
+        end)
       end)
       flash.clear
     end

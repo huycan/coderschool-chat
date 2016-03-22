@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
     [self.inviter_friends.all, self.accepter_friends.all].flatten
   end
 
-  def users_to_add
+  def users_to_add_friend
     User.all_except(self.friends.push(self).collect { |user| user.id })
   end
 

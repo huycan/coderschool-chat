@@ -1,18 +1,21 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login, :redirect_if_signed_in
+
+  def index
+    @friend_list = @current_user.users_to_add_friend
+  end
+
   def new
   end
 
   def create
     @user = User.new user_params
 
-    respond_to do |format|
-      if @food_item.save
-        redirect_to new_session_path
-        flash[:success] = 'You have signed up successfully.'
-      else
-        flash.now[:error] = 'You have failed to sign up.'
-        render 'new'
-      end
+    if @user.save
+      redirect_to new_session_path
+      flash[:success] = 'You have signed up successfully.'
+    else
+      render 'new'
     end
   end
 
