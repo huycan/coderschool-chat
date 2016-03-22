@@ -1,26 +1,26 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :read]
-  before_action :set_messages_for_user, only: [:index, :sent]
 
   def index
+    @messages = User.find(params[:user_id]).messages
   end
 
   def new    
   end
 
   def create
-    @message = Message.new(message_params)
-    if @message.valid?
-      @message = @current_user.send_messages! m
-      receiver = User.find params[:message][:receiver_id]
-      MessageMailer.notify_new_message(receiver.name, receiver.email, read_user_message_path(@current_user.id, @message.id)).deliver_now
-      redirect_to sent_user_messages_path(@current_user.id)
-    else
-      render 'new'
-    end
+    @message = Message.create(message_params)
+    @current_user.send_messages! @message
+    receiver = User.find params[:message][:receiver_id]
+    MessageMailer.notify_new_message(
+      receiver.name, receiver.email, read_user_message_path(receiver, @message.id)
+    ).deliver_now
+    
+    redirect_to sent_user_messages_path(@current_user.id)
   end
   
-  def sent    
+  def sent
+    @messages = User.find(params[:user_id]).ordered_sent_messages
   end
 
   def read
@@ -40,10 +40,6 @@ class MessagesController < ApplicationController
   private
   def set_message
     @message = Message.find params[:id] if params[:id].present?
-  end
-
-  def set_messages_for_user
-    @messages = User.find(params[:user_id]).messages
   end
 
   def message_params

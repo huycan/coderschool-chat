@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     self.received_messages.blocked_by_sender(self.blocked_friends.collect { |f| f.id }).order created_at: :desc
   end
 
+  def ordered_sent_messages
+    self.sent_messages.order created_at: :desc
+  end
+
   def add_friend! friend
     self.accepter_friends << friend
   end
@@ -62,6 +66,6 @@ class User < ActiveRecord::Base
 
   def send_messages! message
     self.sent_messages << message
-    return self.sent_messages.last
+    # return self.sent_messages.last
   end
 end

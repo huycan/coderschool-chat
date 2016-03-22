@@ -3,6 +3,8 @@
   <div id="error">
     <%= render('layouts/error', object: { data: @message, name: 'sending message' }) if @message %>
   </div>
+
+  <input type="hidden" id="sender_id" name="message[sender_id]" value="<%= @current_user.id %>" />
 	
   <div class='row'>
     <h4>To</h4>
