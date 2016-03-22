@@ -24,16 +24,18 @@ class MessagesController < ApplicationController
   end
 
   def read
-    render 'show'
+    if @message.nil? || @message.receiver_id != @current_user.id
+      flash[:error] = 'You are not the receiver of this message!'
+      redirect_to(root_path)
+    elsif @message.read_at.nil?
+      render 'show'
 
-    if !!@message && @message.receiver_id == @current_user.id
       @message.read_at_utc Time.now.utc
       @message.save
 
       MessageMailer.notify_read_message(@current_user.name, @current_user.email, @message.read_at).deliver_now
     else
-      flash[:error] = 'You are not the receiver of this message!'
-      redirect_to root_path
+      render 'show'
     end
   end
 

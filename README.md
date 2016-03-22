@@ -4,7 +4,7 @@
 
 Submitted by: **Tran Duc Huy**
 
-Time spent: **16** hours
+Time spent: **17** hours
 
 URL: **https://morning-basin-76724.herokuapp.com**
 
@@ -40,7 +40,7 @@ The following **optional** functionality is complete:
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough](relative-path-to-your-gif-file-on-github-or-absolute-path-to-file-on-imgur-or-youtube)
+![Video Walkthrough](walkthrough.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
