@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+  before_action :set_message, only: [:show, :read]
+
   def index
     @messages = User.find(params[:user_id]).messages
   end
@@ -16,5 +18,13 @@ class MessagesController < ApplicationController
   end
 
   def read
+    render 'show'
+    @message.read_at_utc Time.now.utc
+    @message.save
+  end
+
+  private
+  def set_message
+    @message = Message.find params[:id] if params[:id].present?
   end
 end

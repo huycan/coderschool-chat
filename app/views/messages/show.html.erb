@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col s12 m6">
+    <div class="card cyan darken-1">
+      <div class="card-content white-text">
+      	<span class="card-title">
+      		From <%= @message.sender.name %>
+          <% if !@message.read? %>
+            <i class="material-icons right">markunread</i>
+          <% end %>
+    		</span>
+        <p><%= @message.created_at.strftime("%B %-d, %Y %k:%M") %></p>
+        <div class='divider'></div>
+        <div class='card-panel cyan darken-1'>
+          <% if @message.read? %>
+            Message has been read
+          <% else %>
+            <%= @message.content %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
