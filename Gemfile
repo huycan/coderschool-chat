@@ -46,7 +46,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # faker for seed data
-gem 'faker', group: :development
+gem 'faker'
 
 # Heroku
 gem 'rails_12factor', group: :production
