@@ -5,16 +5,19 @@ class MessagesController < ApplicationController
   def index
   end
 
-  def new
-    
+  def new    
   end
 
   def create
-    @message = @current_user.send_messages! Message.new(message_params)
-    receiver = User.find params[:message][:receiver_id]
-    MessageMailer.notify_new_message(receiver.name, receiver.email, read_user_message_path(@current_user.id, @message.id)).deliver_now
-
-    redirect_to sent_user_messages_path(@current_user.id)
+    @message = Message.new(message_params)
+    if @message.valid?
+      @message = @current_user.send_messages! m
+      receiver = User.find params[:message][:receiver_id]
+      MessageMailer.notify_new_message(receiver.name, receiver.email, read_user_message_path(@current_user.id, @message.id)).deliver_now
+      redirect_to sent_user_messages_path(@current_user.id)
+    else
+      render 'new'
+    end
   end
   
   def sent    
