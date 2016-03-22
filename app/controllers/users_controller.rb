@@ -14,15 +14,21 @@ class UsersController < ApplicationController
   end
 
   def delete_friend
-    @current_user.delete_friend User.find params[:friend_id]
+    @current_user.delete_friend! User.find params[:friend_id]
+
+    redirect_to friends_user_path(@current_user.id)
   end
 
   def block_friend
-    @current_user.block_friend User.find params[:friend_id]
+    @current_user.block_friend! User.find params[:friend_id]
+    
+    redirect_to friends_user_path(@current_user.id)
   end
 
   def unblock_friend
-    @current_user.unblock_friend User.find params[:friend_id]
+    @current_user.unblock_friend! User.find params[:friend_id]
+
+    redirect_to friends_user_path(@current_user.id)
   end
 
   def new

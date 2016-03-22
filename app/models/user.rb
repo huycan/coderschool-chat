@@ -26,15 +26,15 @@ class User < ActiveRecord::Base
   end
 
   def users_to_add_friend
-    User.all_except(user.id)
+    User.all_except(self[:id])
   end
 
   def is_friend_of? user_id
-    return !!Friendship.find_by(inviter_id: user_id) || !!Friendship.find_by(accepter_id: user_id)
+    return !!Friendship.find_by(inviter_id: user_id, accepter_id: self[:id]) || !!Friendship.find_by(inviter_id: self[:id], accepter_id: user_id)
   end
 
   def is_blocked_by? user_id
-    return !!Block.find_by(user_id: user_id)
+    return !!Block.find_by(user_id: user_id, blocked_user_id: self[:id])
   end
 
   def messages
@@ -46,8 +46,8 @@ class User < ActiveRecord::Base
   end
 
   def delete_friend! friend
-    self.inviter_friends.delete friend
-    self.accepter_friends.delete friend
+    self.inviter_friends.destroy friend
+    self.accepter_friends.destroy friend
     # Friendship.destroy_all inviter_id: friend.id, accepter_id: self[:id]
     # Friendship.destroy_all inviter_id: self[:id], accepter_id: friend.id
   end
@@ -60,9 +60,8 @@ class User < ActiveRecord::Base
     self.blocked_friends.destroy friend
   end
 
-  def send_messages! messages
-    messages.each do |msg|
-      self.sent_messages << msg
-    end
+  def send_messages! message
+    self.sent_messages << message
+    return self.sent_messages.last
   end
 end

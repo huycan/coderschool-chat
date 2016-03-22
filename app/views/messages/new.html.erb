@@ -1,19 +1,25 @@
 <h4>Send message</h4>
-<%= form_for :message, url: users_path, method: :post do |f| %>
+<%= form_for :message, url: user_messages_path(@current_user.id), method: :post do |f| %>
   <div id="error">
     <%= render('layouts/error', object: { data: @message, name: 'sending message' }) if @message %>
   </div>
 	
-	<div class="input-field">
-		<h4>To</h4>
-		<%= select('message', 'receiver_id', @current_user.friends { |p| [ p.name, p.id ] }, {prompt: 'Select Receiver'}) %>
-	</div>
-
-  <div class="input-field">
-    <%= f.text_area 'content', placeholder: 'Message', class: 'materialize-textarea' %>
+  <div class='row'>
+    <h4>To</h4>
+    <div class="input-field">      
+      <%= select('message', 'receiver_id', @current_user.friends.collect { |p| [ p.name, p.id ] }, { prompt: 'Select Receiver' }, class: 'show-select') %>
+    </div>
   </div>
 
-  <div class="input-field">
-    <%= f.submit 'Send', class: 'btn btn-block btn-info' %>
+  <div class="row">
+    <div class="input-field">
+      <%= f.text_area 'content', placeholder: 'Message', class: 'materialize-textarea' %>
+    </div>
+  </div>  
+
+  <div class="row">
+    <div class="input-field">
+      <%= f.submit 'Send', class: 'btn btn-block btn-info' %>
+    </div>
   </div>
 <% end %>

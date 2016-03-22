@@ -7,14 +7,14 @@
     	</p>
     </div>
     <div class="card-action">
-    	<% if !user.is_friend_of(@current_user.id) %>
-    		<%= link_to 'Add friend', add_friend_path(@current_user.id, user.id), method: :post %>
-    	<% elsif !user.is_blocked_by(@current_user.id) %>
-    		<%= link_to 'Delete friend', delete_friend_path(@current_user.id, user.id), method: :delete %>
-				<%= link_to 'Block', read_user_message_path(@current_user.id, user.id), method: :post %>
+    	<% if !user.is_friend_of?(@current_user.id) %>
+	      <%= link_to 'Add friend', add_friend_user_path(@current_user.id, user.id), method: :post %>
+    	<% elsif !user.is_blocked_by?(@current_user.id) %>
+    		<%= link_to 'Delete friend', delete_friend_user_path(@current_user.id, user.id), method: :delete %>
+    		<%= link_to 'Block', unblock_friend_user_path(@current_user.id, user.id), method: :post %>
     	<% else %>
-    		<%= link_to 'Delete friend', delete_friend_path(@current_user.id, user.id), method: :delete %>
-				<%= link_to 'Unblock', block_friend_path(@current_user.id, user.id), method: :post %>
+    		<%= link_to 'Delete friend', delete_friend_user_path(@current_user.id, user.id), method: :delete %>
+			<%= link_to 'Unblock', unblock_friend_user_path(@current_user.id, user.id), method: :delete %>
     	<% end %>
     </div>
   </div>
