@@ -4,9 +4,9 @@
 
 Submitted by: **Tran Duc Huy**
 
-Time spent: **6+3+2+3** hours
+Time spent: **16** hours
 
-URL: **Insert your Heroku URL here**
+URL: **https://morning-basin-76724.herokuapp.com**
 
 ## User Stories
 
@@ -35,10 +35,6 @@ The following **optional** functionality is complete:
 * [x] User gets an email when they receive a message, with a link to view the message.
 * [x] User gets an email when a message they have sent is read with the time at which the message was read.
 * [ ] User can send a message to the email address of a non-registered user. The recipient will receive an email with a link to sign up for the service, and after creating an account, will be able to view the sent message. 
-
-The following **additional** features are implemented:
-
-- [ ] (List anything else that you can get done to improve the app functionality!)
 
 ## Video Walkthrough 
 
