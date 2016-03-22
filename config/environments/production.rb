@@ -1,14 +1,13 @@
 Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = {:host => 'https://ratatouillers.herokuapp.com'}
   config.action_mailer.smtp_settings = {
-      :address => 'smtp.sendgrid.net',
-      :port => 587,
-      :authentication => :plain,
-      :enable_starttls_auto => true,
-      :user_name => ENV['MAILER_USER_NAME'],
-      :password => ENV['MAILER_PASSWORD'],
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :user_name            => ENV['gmail_username'],
+    :password             => ENV['gmail_password'],
+    :authentication       => "plain",
+    :enable_starttls_auto => true
   }
 
   # Settings specified here will take precedence over those in config/application.rb.
