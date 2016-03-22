@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   end
 
   def is_friend_of? user_id
-    return !!Friendship.find_by(inviter_id: user_id) or !!Friendship.find_by(accepter_id: user_id)
+    return !!Friendship.find_by(inviter_id: user_id) || !!Friendship.find_by(accepter_id: user_id)
   end
 
   def is_blocked_by? user_id
