@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create] do
     resources :messages, only: [:index, :new, :create] do
+      collection do
+        get 'sent', to: 'messages#sent'
+      end
       member do
         post 'read', to: 'messages#read'
       end

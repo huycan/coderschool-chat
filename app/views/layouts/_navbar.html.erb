@@ -4,7 +4,7 @@
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <% if signed_in? %>
         <li><%= link_to 'Add Friends', '#' %></li>
-        <li><%= link_to 'Sent Messages', user_messages_path(@current_user.id) %></li>
+        <li><%= link_to 'Sent Messages', sent_user_messages_path(@current_user.id) %></li>
         <li><%= link_to 'New Message', '#' %></li>
         <li><%= link_to 'Log out', session_path(@current_user), method: :delete %></li>        
       <% else %>

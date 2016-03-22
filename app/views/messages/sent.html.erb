@@ -1,0 +1,23 @@
+<% @messages.each do |msg| %>
+	<div class="row">
+    <div class="col s12 m6">
+      <div class="card cyan darken-1">
+        <div class="card-content white-text">
+        	<span class="card-title">
+        		To <%= msg.sender.name %>
+        		<% if !msg.read? %>
+        			<i class="material-icons right">markunread</i>
+          	<% end %>
+      		</span>
+          <p>
+            <% if !msg.read? %>
+              Unread
+            <% else %>
+              Read at <%= msg.created_at.strftime("%B %-d, %Y %k:%M") %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
